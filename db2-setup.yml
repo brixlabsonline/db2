@@ -1,0 +1,16 @@
+---
+- name: Db2 deployment playbook
+  hosts: db2-nodes
+  become: yes
+  become_method: sudo
+  #remote_user: root
+
+  vars:
+    db2_version: 11.1
+    db2_instance_user: inst1
+    db2_inst_group: db2iadm
+    db2_fence_user: db2fn01
+    db2_port_no: 12345
+    db2_instance_password: Str0ngP@ssw0rd
+  roles:
+   - db2

@@ -1,0 +1,46 @@
+#- name: Copy insllation files to remote host
+#  copy:
+#   src: "{{ db2_archive_dest }}"
+#   dest: "{{ db2_archive_dest }}" 
+
+- name: Unarchive file 
+  unarchive:
+   src: "{{ db2_archive_binaries }}"
+   dest: "{{ db2_archive_dest }}"
+   owner: root
+   group: root
+   list_files: yes
+  register: install_file
+
+- name: Db2 Pre-requesite Checks
+  shell: "{{ install_file.dest }}{{ install_file.files[0] }}db2prereqcheck -i -s"
+  register: pre_req_check
+  failed_when: "'failed' in pre_req_check.stderr"
+  changed_when: False
+
+#  - name: Parse response file
+#    template: src=db2server.j2.rsp dest=/tmp/db2server.rsp
+ 
+
+#- name: Installing DB2 10.5
+#    command: "{{db2_binary.dest}}/{{db2_creates}}/db2setup -r /tmp/db2server.rsp"
+#    register: db2_setup
+#    args:
+#      creates: "{{resp.file}}"
+#    tags: install
+
+#  - name: Setup results
+#    debug: var=db2_setup
+#    tags: download
+#
+#  - name: Validating the current installation
+#    command: "{{resp.file}}/bin/db2val -o"
+#    register: db2_val
+#    failed_when: "'DBI1335I' not in db2_val.stdout"
+#    changed_when: False
+#    tags: ['install', 'validate']
+#
+#  - name: Validate results
+#    debug: var=db2_val
+#    tags: download
+

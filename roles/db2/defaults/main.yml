@@ -1,0 +1,5 @@
+---
+# defaults file for db2
+
+db2_archive_binaries: /tmp/v11.1_linuxx64_expc.tar
+db2_archive_dest: /tmp/
